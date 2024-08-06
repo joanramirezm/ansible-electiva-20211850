@@ -1,0 +1,41 @@
+---
+- name: Configuración de servidores
+  hosts: servers
+  become: true
+  tasks:
+    - name: Actualizar la caché de apt
+      apt: update_cache=yes
+
+    - name: Instalar Apache
+      apt: name=apache2 state=present
+
+    - name: Instalar Cowsay
+      apt: name=cowsay state=present
+
+    - name: Crear un archivo
+      copy:
+        dest: /home/vagrant/joanramirez.txt
+        content: "Este archivo ha sido creado por Ansible"
+
+    - name: Transferir archivos nuevos
+      copy:
+        src: /ruta/a/archivo/local
+        dest: /ruta/a/archivo/remoto
+
+    - name: Iniciar el servicio de Apache
+      service:
+        name: apache2
+        state: started
+
+    - name: Crear directorios
+      file:
+        path: /home/vagrant/estudiantes
+        state: directory
+
+    - name: Añadir usuario en el servidor
+      user:
+        name: joanramirez
+        state: present
+
+    - name: Ejecutar script en el servidor
+      script: /ruta/a/script/local.sh
